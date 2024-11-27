@@ -2,6 +2,9 @@ package com.example.monprofil.ui.theme
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,15 +19,15 @@ import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilmCard(movie: Movie, onClick: (id: String) -> Unit) {
+fun FilmCard(movie: Movie, onClick: (id: String) -> Unit, onFavoriteToggle: (Movie) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { onClick(movie.id.toString()) },   // Passez l'ID en tant qu'Int
+            .clickable { onClick(movie.id.toString()) }, // Pass the ID as a string
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF4682B4)) // Bleu acier
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF4682B4)) // Steel blue
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,6 +63,18 @@ fun FilmCard(movie: Movie, onClick: (id: String) -> Unit) {
                     text = "Release: ${movie.release_date}",
                     fontSize = 16.sp,
                     color = Color.LightGray
+                )
+            }
+
+            // Favorite Toggle Button
+            IconButton(
+                onClick = { onFavoriteToggle(movie) },
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Icon(
+                    imageVector = if (movie.isFav) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = if (movie.isFav) Color.Red else Color.White
                 )
             }
         }

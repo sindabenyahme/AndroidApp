@@ -148,7 +148,11 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel, onClick: 
                     .padding(8.dp)
             ) {
                 items(movies) { movie ->
-                    FilmCard(movie = movie, onClick)
+                    FilmCard(
+                        movie = movie,
+                        onClick = onClick,
+                        onFavoriteToggle = { viewModel.toggleFavoriteFilm(movie) }  // Assurez-vous de passer la fonction onFavoriteToggle ici
+                    )
                 }
             }
         }

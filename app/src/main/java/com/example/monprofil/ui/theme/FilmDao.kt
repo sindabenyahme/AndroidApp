@@ -1,19 +1,17 @@
 package com.example.monprofil.ui.theme
 
-
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface FilmDao {
+    @Query("SELECT * FROM FilmEntity")
+    suspend fun getAllFilms(): List<FilmEntity>
 
-    @Insert
-    suspend fun insert(film: Film)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFilm(film: FilmEntity)
 
-    @Query("SELECT * FROM films")
-    suspend fun getAllFilms(): List<Film>
 
-    @Query("SELECT * FROM films WHERE id = :filmId")
-    suspend fun getFilmById(filmId: Int): Film?
+    @Query("DELETE FROM FilmEntity WHERE id = :filmId")
+    suspend fun deleteFilmById(filmId: Int)
 }
+

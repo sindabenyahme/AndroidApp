@@ -5,6 +5,7 @@ data class TmbdResult(
     val results: List<Movie>,
     val total_pages: Int,
     val total_results: Int
+
 )
 
 data class Movie(
@@ -22,7 +23,8 @@ data class Movie(
     val title: String,
     val video: Boolean,
     val vote_average: Double,
-    val vote_count: Int
+    val vote_count: Int,
+    var isFav: Boolean = false
 )
 //Pour le chemin
 data class DetailedMovie(
@@ -263,6 +265,7 @@ data class NextEpisodeToAir(
 data class TmdbActeur(
 
     val results: List<Acteurs>,
+    var isFav: Boolean = false
 
     )
 
@@ -300,6 +303,7 @@ data class KnownFor(
 data class TmdbSeries(
 
     val results: List<Series>,
+    var isFav: Boolean = false
 
     )
 

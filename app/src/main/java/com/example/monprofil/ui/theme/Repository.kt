@@ -1,8 +1,15 @@
 package com.example.monprofil.ui.theme
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val tmdbAPI: TmdbAPI) {
+
+
+class Repository @Inject constructor(
+    private val tmdbAPI: TmdbAPI,  // API service pour interagir avec TMDb
+    private val filmDao: FilmDao  // DAO pour interagir avec la base de données (Room)
+) {
 
     // Fonction pour obtenir les films par mot-clé
     suspend fun getFilmsParMotCle(
@@ -87,4 +94,44 @@ class Repository @Inject constructor(private val tmdbAPI: TmdbAPI) {
     suspend fun acteurfilm(id: Int, apiKey: String): MovieCreditsResult {
         return tmdbAPI.acteurfilm(id, apiKey)
     }
+
+    // Ajouter un film aux favoris
+    suspend fun addFavoriteFilm(film: Movie) {
+        filmDao.insertFilm(
+            FilmEntity(
+                fiche = film,
+                id = film.id
+            )
+        )  // On ajoute le film aux favoris dans la DB
+    }
+
+
+
+    // Supprimer un film des favoris
+    suspend fun removeFavoriteFilm(filmId: Int) {
+        filmDao.deleteFilmById(filmId)  // Suppression du film par ID dans la DB
+    }
+    // Fonction pour récupérer les films favoris
+    fun getFavoriteFilms(): LiveData<List<Movie>> {
+        return liveData {
+            val favoriteFilms = filmDao.getAllFilms().map { it.fiche }
+            emit(favoriteFilms)
+        }
+    }
+
+    // Fonction pour mettre à jour l'état des favoris dans les résultats
+    suspend fun updateFavorites(result: TmbdResult): TmbdResult {
+        val favoriteIds = filmDao.getAllFilms().map { it.id }.toSet()
+        val updatedResults = result.results.map { movie ->
+            if (favoriteIds.contains(movie.id)) {
+                movie.copy(isFav = true)
+            } else {
+                movie
+            }
+        }
+        return result.copy(results = updatedResults)
+    }
+
+
 }
+

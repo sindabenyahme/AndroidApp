@@ -28,6 +28,8 @@ class MainViewModel @Inject constructor(
     val movieCast = MutableStateFlow<List<Cast>>(emptyList()) // Liste vide de Cast
     val seriesCast = MutableStateFlow<List<CastSerie>>(emptyList()) // Liste vide de CastSerie
 
+    val showFavoritesOnly = MutableStateFlow(false) // État du commutateur pour afficher uniquement les favoris
+
     val apikey = "474915450c136f48794281389330d269"
 
     // Initialisation des appels
@@ -144,4 +146,50 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+    fun toggleFavoriteFilm(film: Movie) {
+        viewModelScope.launch {
+            try {
+                val updatedFilm = if (film.isFav) {
+                    repo.removeFavoriteFilm(film.id)  // Passe l'ID du film
+                    film.copy(isFav = false)
+                } else {
+                    repo.addFavoriteFilm(film)
+                    film.copy(isFav = true)
+                }
+                updateMoviesList(updatedFilm)
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Erreur lors du changement de favori pour le film: ${e.message}")
+            }
+        }
+    }
+
+
+
+
+
+
+
+    // Mise à jour de la liste des films après avoir changé l'état du favori
+    private fun updateMoviesList(updatedFilm: Movie) {
+        movies.value = movies.value.map { film ->
+            if (film.id == updatedFilm.id) updatedFilm else film
+        }
+    }
+
+    // Met à jour la liste générale en fonction de l'état du favori général
+    fun updateFavoriteState() {
+        viewModelScope.launch {
+            if (showFavoritesOnly.value) {
+                // Filtrer les films et séries favoris uniquement
+                movies.value = movies.value.filter { it.isFav }
+
+            } else {
+                // Récupérer tous les films, séries et acteurs
+                getMovies()
+                getTrendingSeries()
+                getActeurs()
+            }
+        }
+    }
 }
+
