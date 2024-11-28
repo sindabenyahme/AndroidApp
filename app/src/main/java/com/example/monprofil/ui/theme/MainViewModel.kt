@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
     val seriesCast = MutableStateFlow<List<CastSerie>>(emptyList()) // Liste vide de CastSerie
 
     val showFavoritesOnly = MutableStateFlow(false) // État du commutateur pour afficher uniquement les favoris
-    private val playlist = MutableStateFlow<Playlist?>(null)
+     val playlist = MutableStateFlow<Playlist?>(null)
 
 
     val apikey = "474915450c136f48794281389330d269"
