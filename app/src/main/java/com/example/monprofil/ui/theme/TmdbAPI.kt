@@ -67,10 +67,7 @@ interface TmdbAPI {
     suspend fun selectOfMovie(@Path("id") id: Int, @Query("api_key") api_key: String): DetailedMovie
     @GET("movie/{id}/credits")
     suspend fun acteurfilm(@Path("id") id: Int, @Query("api_key") api_Key: String): MovieCreditsResult
-    @GET("search/collection")
 
-    suspend fun getCollectionsByKeyword(
-        @Query("api_key") apiKey: String,
-        @Query("query") keyword: String
-    ): ResultPlaylist
+
+
 }

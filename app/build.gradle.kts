@@ -116,8 +116,7 @@ dependencies {
     // If this project only uses Java source, use the Java annotationProcessor
     // No additional plugins are necessary
     annotationProcessor("androidx.room:room-compiler:2.6.1")
-
-
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
 
 
 }

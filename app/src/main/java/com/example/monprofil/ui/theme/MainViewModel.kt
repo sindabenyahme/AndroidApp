@@ -3,6 +3,8 @@ package com.example.monprofil.ui.theme
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 
@@ -191,5 +193,12 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+
+
+
+
+
 }
+
 
