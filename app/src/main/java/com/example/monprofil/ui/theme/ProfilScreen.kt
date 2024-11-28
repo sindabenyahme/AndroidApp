@@ -194,7 +194,7 @@ fun LinkedInWithIcon() {
 @Composable
 fun DemarrerButton(navController: NavController) {
     Button(
-        onClick = { navController.navigate(FilmsDestination()) },
+        onClick = { navController.navigate(PlayListDestination()) },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4682B4 )),
         modifier = Modifier.padding(16.dp)
     ) {

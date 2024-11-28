@@ -28,7 +28,7 @@ import kotlinx.serialization.Serializable
 @Serializable class ActeursDestination()
 @Serializable class FilmDetailDestination(val id: String)
 @Serializable class SerieDetailsDestination(val id: String)
-
+@Serializable class PlayListDestination()
 
 
 
@@ -79,6 +79,11 @@ class MainActivity : ComponentActivity() {
                                 id = serieDetail.id
                                 // Si vous avez besoin de windowClass, vous pouvez l'obtenir ici ou le rendre optionnel
                             )
+                        }
+
+
+                        composable<PlayListDestination> {
+                            PlayListScreen(navController, mainViewModel)
                         }
 
 

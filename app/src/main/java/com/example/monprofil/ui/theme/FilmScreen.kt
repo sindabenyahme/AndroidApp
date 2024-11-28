@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Tv
@@ -66,15 +67,7 @@ fun FilmScreen(navController: NavController, viewModel: MainViewModel, onClick: 
                         navController.navigate(ActeursDestination())
                     }
                 )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Profil") },
-                    label = { Text("Profil") },
-                    selected = selectedTab == "profil",
-                    onClick = {
-                        selectedTab = "profil"
-                        navController.navigate(ProfilDestination())
-                    }
-                )
+
             }
         }
     ) { innerPadding ->
