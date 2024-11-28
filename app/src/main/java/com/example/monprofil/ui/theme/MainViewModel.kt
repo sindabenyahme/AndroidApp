@@ -3,6 +3,7 @@ package com.example.monprofil.ui.theme
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplicationtest.playlistjson
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,8 @@ class MainViewModel @Inject constructor(
     val seriesCast = MutableStateFlow<List<CastSerie>>(emptyList()) // Liste vide de CastSerie
 
     val showFavoritesOnly = MutableStateFlow(false) // État du commutateur pour afficher uniquement les favoris
+    private val playlist = MutableStateFlow<Playlist?>(null)
+
 
     val apikey = "474915450c136f48794281389330d269"
 
@@ -194,11 +197,24 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun fetchPlayList(): Playlist {
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        return moshi.adapter(Playlist::class.java).fromJson(playlistjson)!!
+
+    }
+
+    fun getPlaylist() {
+            viewModelScope.launch {
+                try {
+                    val playlistresult = fetchPlayList()
+                    playlist.value = playlistresult
+                } catch (e: Exception) {
+
+                }
+            }
+        }
+    }
 
 
-
-
-
-}
 
 
